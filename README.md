@@ -55,8 +55,8 @@ A production-ready school admission portal built with Django, Bootstrap 5, and W
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
-cd school_portal
+git clone https://github.com/Br41n7/SCHMS
+cd SCHMS
 ```
 
 2. **Create and activate virtual environment**
