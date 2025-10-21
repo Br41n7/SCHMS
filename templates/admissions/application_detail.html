@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Application Details - School Admission Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>
+                <i class="bi bi-file-earmark-text-fill me-2"></i>Application Details
+            </h2>
+            <p class="text-muted">Review your complete application</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Application Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Application Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Registration Number</p>
+                            <p class="fw-bold">{{ application.registration_number }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Status</p>
+                            <span class="badge bg-{{ application.get_status_badge_class }} fs-6">
+                                {{ application.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Submitted On</p>
+                            <p>{{ application.submitted_at|date:"F d, Y"|default:"Not submitted" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Last Updated</p>
+                            <p>{{ application.updated_at|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personal Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Personal Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Full Name</p>
+                            <p>{{ application.user.get_full_name }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Email</p>
+                            <p>{{ application.user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Date of Birth</p>
+                            <p>{{ application.date_of_birth|date:"F d, Y"|default:"Not provided" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Gender</p>
+                            <p>{{ application.get_gender_display|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Nationality</p>
+                            <p>{{ application.nationality|default:"Not provided" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Phone Number</p>
+                            <p>{{ application.user.phone_number|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="mb-1 text-muted">Address</p>
+                            <p>{{ application.address|default:"Not provided" }}</p>
+                            <p>{{ application.city }}, {{ application.state }} {{ application.postal_code }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Program Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Program Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Program Type</p>
+                            <p>{{ application.get_program_choice_display|default:"Not provided" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Course of Study</p>
+                            <p>{{ application.course_of_study|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Documents -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Uploaded Documents</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <i class="bi bi-file-earmark-image me-2"></i>Passport Photograph
+                            </span>
+                            {% if application.passport_photo %}
+                                <a href="{{ application.passport_photo.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                            {% else %}
+                                <span class="badge bg-warning">Not uploaded</span>
+                            {% endif %}
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <i class="bi bi-file-earmark-pdf me-2"></i>O'Level Result
+                            </span>
+                            {% if application.olevel_result %}
+                                <a href="{{ application.olevel_result.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                            {% else %}
+                                <span class="badge bg-warning">Not uploaded</span>
+                            {% endif %}
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <i class="bi bi-file-earmark-pdf me-2"></i>Birth Certificate
+                            </span>
+                            {% if application.birth_certificate %}
+                                <a href="{{ application.birth_certificate.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                            {% else %}
+                                <span class="badge bg-warning">Not uploaded</span>
+                            {% endif %}
+                        </div>
+                        {% if application.additional_document_1 %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="bi bi-file-earmark me-2"></i>Additional Document 1
+                                </span>
+                                <a href="{{ application.additional_document_1.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if application.additional_document_2 %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="bi bi-file-earmark me-2"></i>Additional Document 2
+                                </span>
+                                <a href="{{ application.additional_document_2.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'admissions:dashboard' %}" class="btn btn-primary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                        {% if application.status == 'draft' %}
+                            <a href="{% url 'admissions:personal_info' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-pencil me-2"></i>Edit Application
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            {% if application.review_notes %}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Review Notes</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ application.review_notes }}</p>
+                        {% if application.reviewed_at %}
+                            <small class="text-muted">
+                                Reviewed on {{ application.reviewed_at|date:"F d, Y" }}
+                            </small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

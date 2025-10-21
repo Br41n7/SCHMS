@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Application - School Admission Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Submission
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Important:</strong> Once you submit your application, you will not be able to make any changes. Please review your information carefully before submitting.
+                    </div>
+                    
+                    <h5 class="mb-3">Application Summary</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Registration Number</p>
+                            <p class="fw-bold">{{ application.registration_number }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Applicant Name</p>
+                            <p class="fw-bold">{{ application.user.get_full_name }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Program Type</p>
+                            <p>{{ application.get_program_choice_display }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Course of Study</p>
+                            <p>{{ application.course_of_study }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="mb-2 text-muted">Completion Status</p>
+                        <div class="progress" style="height: 30px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%">
+                                100% Complete
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        All required steps have been completed. Your application is ready for submission.
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="confirmCheck" required>
+                            <label class="form-check-label" for="confirmCheck">
+                                I confirm that all information provided is accurate and complete. I understand that I will not be able to edit my application after submission.
+                            </label>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'admissions:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-send-fill me-2"></i>Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Enable submit button only when checkbox is checked
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.getElementById('confirmCheck');
+        const submitBtn = document.querySelector('button[type="submit"]');
+        
+        checkbox.addEventListener('change', function() {
+            submitBtn.disabled = !this.checked;
+        });
+        
+        // Initially disable submit button
+        submitBtn.disabled = true;
+    });
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
