@@ -1,1 +1,0 @@
-# CMS App - Wagtail Content Management
